@@ -12,10 +12,12 @@ export const metadata: Metadata = {
   authors: [{ name: 'Assem Sobhy' }],
   creator: 'Assem Sobhy',
   publisher: 'Assem Sobhy',
+  metadataBase: new URL('https://assem-me.vercel.app'),
   icons: {
     icon: [
       { url: '/favicon.svg', type: 'image/svg+xml' },
-      { url: '/favicon.png', type: 'image/png' },
+      { url: '/favicon.png', type: 'image/png', sizes: '32x32' },
+      { url: '/favicon.ico', sizes: 'any' },
     ],
     apple: [
       { url: '/favicon.png', sizes: '180x180', type: 'image/png' },
