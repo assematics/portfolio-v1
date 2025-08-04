@@ -2,8 +2,11 @@
 
 import { useState } from 'react'
 import ProfilePhoto from '../ProfilePhoto'
+import InteractiveGrid from '../InteractiveGrid'
+import ScrollNavigation from '../ScrollNavigation'
 
 type StyleVariant = 'brooklin' | 'developer' | 'artistic' | 'traditional' | 'business'
+type ColorScheme = 'default' | 'blue' | 'purple' | 'green' | 'red'
 
 const styleVariants = {
   brooklin: 'Clean Minimalist',
@@ -13,23 +16,32 @@ const styleVariants = {
   business: 'Professional Business'
 }
 
+const colorSchemes = {
+  default: 'Original',
+  blue: 'Ocean Blue',
+  purple: 'Royal Purple', 
+  green: 'Forest Green',
+  red: 'Fire Red'
+}
+
 export default function InspiredStyles() {
   const [currentStyle, setCurrentStyle] = useState<StyleVariant>('brooklin')
+  const [currentColor, setCurrentColor] = useState<ColorScheme>('default')
 
   const renderStyle = () => {
     switch (currentStyle) {
       case 'brooklin':
-        return <BrooklinStyle />
+        return <BrooklinStyle colorScheme={currentColor} />
       case 'developer':
-        return <DeveloperStyle />
+        return <DeveloperStyle colorScheme={currentColor} />
       case 'artistic':
-        return <ArtisticStyle />
+        return <ArtisticStyle colorScheme={currentColor} />
       case 'traditional':
-        return <TraditionalStyle />
+        return <TraditionalStyle colorScheme={currentColor} />
       case 'business':
-        return <BusinessStyle />
+        return <BusinessStyle colorScheme={currentColor} />
       default:
-        return <BrooklinStyle />
+        return <BrooklinStyle colorScheme={currentColor} />
     }
   }
 
@@ -39,7 +51,7 @@ export default function InspiredStyles() {
       <div className="fixed top-20 left-4 z-40 bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm border border-gray-200 dark:border-slate-700 rounded-lg p-4 shadow-lg max-w-xs">
         <div className="text-sm font-semibold text-gray-700 dark:text-slate-200 mb-3">Inspired Styles</div>
         
-        <div className="space-y-2">
+        <div className="space-y-2 mb-4">
           {Object.entries(styleVariants).map(([key, label]) => (
             <button
               key={key}
@@ -55,9 +67,29 @@ export default function InspiredStyles() {
           ))}
         </div>
 
-        <div className="mt-4 pt-3 border-t border-gray-200 dark:border-slate-600">
+        <div className="border-t border-gray-200 dark:border-slate-600 pt-3 mb-4">
+          <div className="text-sm font-semibold text-gray-700 dark:text-slate-200 mb-2">Color Scheme</div>
+          <div className="grid grid-cols-2 gap-1">
+            {Object.entries(colorSchemes).map(([key, label]) => (
+              <button
+                key={key}
+                onClick={() => setCurrentColor(key as ColorScheme)}
+                className={`px-2 py-1 rounded text-xs transition-colors ${
+                  currentColor === key
+                    ? 'bg-blue-600 dark:bg-blue-500 text-white'
+                    : 'bg-gray-100 dark:bg-slate-700 text-gray-600 dark:text-slate-400 hover:bg-gray-200 dark:hover:bg-slate-600'
+                }`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="pt-3 border-t border-gray-200 dark:border-slate-600">
           <div className="text-xs text-gray-500 dark:text-slate-400">
-            🎨 5 inspired designs!
+            🎨 5 styles × 5 colors = 25 variants!<br/>
+            🎯 Interactive grid + scroll nav!
           </div>
         </div>
       </div>
@@ -67,10 +99,73 @@ export default function InspiredStyles() {
   )
 }
 
+// Color scheme helper
+function getColorClasses(scheme: ColorScheme) {
+  switch (scheme) {
+    case 'blue':
+      return {
+        text: 'text-blue-400',
+        textDark: 'text-blue-500',
+        textLight: 'text-blue-300',
+        bg: 'bg-blue-500',
+        bgHover: 'hover:bg-blue-400',
+        hoverText: 'hover:text-blue-400',
+        gradient: 'bg-gradient-to-br from-blue-900 via-slate-900 to-indigo-900',
+        gridColor: '#60a5fa'
+      }
+    case 'purple':
+      return {
+        text: 'text-purple-400',
+        textDark: 'text-purple-500',
+        textLight: 'text-purple-300',
+        bg: 'bg-purple-500',
+        bgHover: 'hover:bg-purple-400',
+        hoverText: 'hover:text-purple-400',
+        gradient: 'bg-gradient-to-br from-purple-900 via-slate-900 to-violet-900',
+        gridColor: '#a78bfa'
+      }
+    case 'green':
+      return {
+        text: 'text-green-400',
+        textDark: 'text-green-500',
+        textLight: 'text-green-300',
+        bg: 'bg-green-500',
+        bgHover: 'hover:bg-green-400',
+        hoverText: 'hover:text-green-400',
+        gradient: 'bg-gradient-to-br from-green-900 via-slate-900 to-emerald-900',
+        gridColor: '#4ade80'
+      }
+    case 'red':
+      return {
+        text: 'text-red-400',
+        textDark: 'text-red-500', 
+        textLight: 'text-red-300',
+        bg: 'bg-red-500',
+        bgHover: 'hover:bg-red-400',
+        hoverText: 'hover:text-red-400',
+        gradient: 'bg-gradient-to-br from-red-900 via-slate-900 to-rose-900',
+        gridColor: '#f87171'
+      }
+    default:
+      return {
+        text: 'text-emerald-400',
+        textDark: 'text-emerald-500',
+        textLight: 'text-emerald-300',
+        bg: 'bg-emerald-500',
+        bgHover: 'hover:bg-emerald-400',
+        hoverText: 'hover:text-emerald-400',
+        gradient: 'bg-gradient-to-br from-gray-900 via-slate-900 to-black',
+        gridColor: '#10b981'
+      }
+  }
+}
+
 // 1. Brooklin Inspired - Clean Minimalist
-function BrooklinStyle() {
+function BrooklinStyle({ colorScheme }: { colorScheme: ColorScheme }) {
+  const colors = getColorClasses(colorScheme)
   return (
-    <main className="min-h-screen bg-gradient-to-br from-gray-900 via-slate-900 to-black text-white relative overflow-hidden">
+    <main className={`min-h-screen ${colors.gradient} text-white relative overflow-hidden`}>
+      <InteractiveGrid color={colors.gridColor} opacity={0.4} nodeCount={40} />
       {/* Subtle Background Curves */}
       <div className="absolute inset-0 opacity-10">
         <svg className="absolute top-20 left-0 w-96 h-96" viewBox="0 0 400 400">
@@ -82,16 +177,18 @@ function BrooklinStyle() {
       </div>
 
       {/* Navigation */}
-      <nav className="relative z-10 flex justify-between items-center p-8">
-        <div className="text-emerald-400 font-bold text-xl">HOME</div>
-        <div className="flex space-x-8 text-sm">
-          <span className="hover:text-emerald-400 cursor-pointer transition-colors">WORK</span>
-          <span className="hover:text-emerald-400 cursor-pointer transition-colors">ABOUT</span>
-          <span className="hover:text-emerald-400 cursor-pointer transition-colors">SERVICE</span>
-          <span className="hover:text-emerald-400 cursor-pointer transition-colors">BLOGS</span>
-          <span className="hover:text-emerald-400 cursor-pointer transition-colors">CONTACTS</span>
+      <ScrollNavigation>
+        <div className="flex justify-between items-center p-8">
+          <div className={`${colors.text} font-bold text-xl`}>HOME</div>
+          <div className="flex space-x-8 text-sm">
+            <span className={`${colors.hoverText} cursor-pointer transition-colors`}>WORK</span>
+            <span className={`${colors.hoverText} cursor-pointer transition-colors`}>ABOUT</span>
+            <span className={`${colors.hoverText} cursor-pointer transition-colors`}>SERVICE</span>
+            <span className={`${colors.hoverText} cursor-pointer transition-colors`}>BLOGS</span>
+            <span className={`${colors.hoverText} cursor-pointer transition-colors`}>CONTACTS</span>
+          </div>
         </div>
-      </nav>
+      </ScrollNavigation>
 
       {/* Main Content */}
       <div className="relative z-10 flex items-center justify-center min-h-[80vh] px-8">
@@ -104,18 +201,18 @@ function BrooklinStyle() {
           
           <div className="mb-12">
             <p className="text-2xl md:text-3xl smooth-slide-bottom delay-500">
-              a <span className="text-emerald-400 font-medium">Developer & Security Engineer</span>
+              a <span className={`${colors.text} font-medium`}>Developer & Security Engineer</span>
             </p>
             <p className="text-xl md:text-2xl mt-4 smooth-slide-bottom delay-700">
-              With <span className="text-emerald-400">5+</span> years<br/>
+              With <span className={colors.text}>5+</span> years<br/>
               experience working with
             </p>
-            <p className="text-xl md:text-2xl text-emerald-400 font-medium mt-2 smooth-slide-bottom delay-900">
+            <p className={`text-xl md:text-2xl ${colors.text} font-medium mt-2 smooth-slide-bottom delay-900`}>
               Modern Technologies
             </p>
           </div>
 
-          <button className="px-8 py-4 bg-emerald-500 text-black font-semibold rounded-full hover:bg-emerald-400 transition-colors transform hover:scale-105 smooth-zoom-in delay-1100">
+          <button className={`px-8 py-4 ${colors.bg} text-white font-semibold rounded-full ${colors.bgHover} transition-colors transform hover:scale-105 smooth-zoom-in delay-1100`}>
             View My Work
           </button>
         </div>
@@ -126,19 +223,19 @@ function BrooklinStyle() {
         <div className="max-w-6xl mx-auto px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             <div className="smooth-fade-in delay-300">
-              <div className="text-3xl font-bold text-emerald-400 mb-2">50+</div>
+              <div className={`text-3xl font-bold ${colors.text} mb-2`}>50+</div>
               <div className="text-gray-400 text-sm">Projects Completed</div>
             </div>
             <div className="smooth-fade-in delay-500">
-              <div className="text-3xl font-bold text-emerald-400 mb-2">5+</div>
+              <div className={`text-3xl font-bold ${colors.text} mb-2`}>5+</div>
               <div className="text-gray-400 text-sm">Years Experience</div>
             </div>
             <div className="smooth-fade-in delay-700">
-              <div className="text-3xl font-bold text-emerald-400 mb-2">24/7</div>
+              <div className={`text-3xl font-bold ${colors.text} mb-2`}>24/7</div>
               <div className="text-gray-400 text-sm">System Uptime</div>
             </div>
             <div className="smooth-fade-in delay-900">
-              <div className="text-3xl font-bold text-emerald-400 mb-2">100%</div>
+              <div className={`text-3xl font-bold ${colors.text} mb-2`}>100%</div>
               <div className="text-gray-400 text-sm">Security Score</div>
             </div>
           </div>
@@ -149,36 +246,40 @@ function BrooklinStyle() {
 }
 
 // 2. Developer Inspired - James.dev Style
-function DeveloperStyle() {
+function DeveloperStyle({ colorScheme }: { colorScheme: ColorScheme }) {
+  const colors = getColorClasses(colorScheme)
   return (
-    <main className="min-h-screen bg-slate-900 text-white font-mono">
+    <main className={`min-h-screen ${colors.gradient} text-white font-mono relative overflow-hidden`}>
+      <InteractiveGrid color={colors.gridColor} opacity={0.3} nodeCount={60} />
       {/* Header */}
-      <nav className="flex justify-between items-center p-6 border-b border-slate-700">
-        <div className="flex items-center space-x-2">
-          <span className="text-emerald-400 text-xl">&lt;/&gt;</span>
-          <span className="text-emerald-400 font-bold">Assem.dev</span>
+      <ScrollNavigation>
+        <div className="flex justify-between items-center p-6 border-b border-slate-700/50">
+          <div className="flex items-center space-x-2">
+            <span className={`${colors.text} text-xl`}>&lt;/&gt;</span>
+            <span className={`${colors.text} font-bold`}>Assem.dev</span>
+          </div>
+          <div className="flex space-x-6 text-sm">
+            <span className={colors.text}>About me</span>
+            <span className={`text-gray-400 ${colors.hoverText} transition-colors cursor-pointer`}>Resume</span>
+            <span className={`text-gray-400 ${colors.hoverText} transition-colors cursor-pointer`}>Services</span>
+            <span className={`text-gray-400 ${colors.hoverText} transition-colors cursor-pointer`}>Portfolio</span>
+            <span className={`text-gray-400 ${colors.hoverText} transition-colors cursor-pointer`}>Blog</span>
+            <span className={`text-gray-400 ${colors.hoverText} transition-colors cursor-pointer`}>Contact</span>
+          </div>
+          <div className="text-yellow-400 text-2xl">☀️</div>
         </div>
-        <div className="flex space-x-6 text-sm">
-          <span className="text-emerald-400">About me</span>
-          <span className="text-gray-400 hover:text-white transition-colors cursor-pointer">Resume</span>
-          <span className="text-gray-400 hover:text-white transition-colors cursor-pointer">Services</span>
-          <span className="text-gray-400 hover:text-white transition-colors cursor-pointer">Portfolio</span>
-          <span className="text-gray-400 hover:text-white transition-colors cursor-pointer">Blog</span>
-          <span className="text-gray-400 hover:text-white transition-colors cursor-pointer">Contact</span>
-        </div>
-        <div className="text-yellow-400 text-2xl">☀️</div>
-      </nav>
+      </ScrollNavigation>
 
       {/* Main Content */}
-      <div className="flex items-center justify-center min-h-[85vh] px-8">
+      <div className="relative z-10 flex items-center justify-center min-h-[85vh] px-8">
         <div className="max-w-6xl w-full grid md:grid-cols-2 gap-12 items-center">
           {/* Left Side - Profile */}
           <div className="text-center md:text-left smooth-slide-left">
             <div className="mb-8 flex justify-center md:justify-start">
               <div className="relative">
                 <ProfilePhoto size="xl" className="rounded-none" />
-                <div className="absolute -bottom-4 -right-4 w-16 h-16 bg-emerald-500 flex items-center justify-center transform rotate-12">
-                  <span className="text-black text-2xl font-bold">&lt;/&gt;</span>
+                <div className={`absolute -bottom-4 -right-4 w-16 h-16 ${colors.bg} flex items-center justify-center transform rotate-12`}>
+                  <span className="text-white text-2xl font-bold">&lt;/&gt;</span>
                 </div>
               </div>
             </div>
@@ -193,8 +294,8 @@ function DeveloperStyle() {
             </div>
 
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              Senior <span className="text-emerald-400">&#123;Full Stack&#125;</span><br/>
-              Web &amp; App developer<span className="text-emerald-400">_</span>
+              Senior <span className={colors.text}>&#123;Full Stack&#125;</span><br/>
+              Web &amp; App developer<span className={colors.text}>_</span>
             </h1>
 
             <div className="mb-8 text-gray-400">
@@ -207,25 +308,25 @@ function DeveloperStyle() {
 
             {/* Tech Stack Icons */}
             <div className="flex space-x-4 mb-8">
-              <div className="w-12 h-12 bg-slate-800 rounded flex items-center justify-center">
-                <span className="text-blue-400 font-bold">N</span>
+              <div className="w-12 h-12 bg-slate-800/80 rounded flex items-center justify-center">
+                <span className={`${colors.text} font-bold`}>N</span>
               </div>
-              <div className="w-12 h-12 bg-slate-800 rounded flex items-center justify-center">
+              <div className="w-12 h-12 bg-slate-800/80 rounded flex items-center justify-center">
                 <span className="text-yellow-400">🔥</span>
               </div>
-              <div className="w-12 h-12 bg-slate-800 rounded flex items-center justify-center">
-                <span className="text-emerald-400">💎</span>
+              <div className="w-12 h-12 bg-slate-800/80 rounded flex items-center justify-center">
+                <span className={colors.text}>💎</span>
               </div>
-              <div className="w-12 h-12 bg-slate-800 rounded flex items-center justify-center">
-                <span className="text-emerald-400 font-bold">JS</span>
+              <div className="w-12 h-12 bg-slate-800/80 rounded flex items-center justify-center">
+                <span className={`${colors.text} font-bold`}>JS</span>
               </div>
-              <div className="w-12 h-12 bg-slate-800 rounded flex items-center justify-center">
-                <span className="text-blue-400">~</span>
+              <div className="w-12 h-12 bg-slate-800/80 rounded flex items-center justify-center">
+                <span className={colors.text}>~</span>
               </div>
               <span className="flex items-center text-gray-500">...and more</span>
             </div>
 
-            <button className="flex items-center space-x-2 px-6 py-3 border border-gray-600 rounded hover:bg-slate-800 transition-colors">
+            <button className={`flex items-center space-x-2 px-6 py-3 border border-gray-600 rounded ${colors.hoverText} hover:bg-slate-800/50 transition-colors`}>
               <span>📄</span>
               <span>Download my CV</span>
             </button>
@@ -234,22 +335,22 @@ function DeveloperStyle() {
       </div>
 
       {/* Stats */}
-      <div className="border-t border-slate-700 py-8">
+      <div className="relative z-10 border-t border-slate-700/50 py-8">
         <div className="max-w-6xl mx-auto px-8 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-          <div>
-            <div className="text-3xl font-bold text-emerald-400 mb-2">5+</div>
+          <div className="smooth-fade-in delay-300">
+            <div className={`text-3xl font-bold ${colors.text} mb-2`}>5+</div>
             <div className="text-gray-400 text-sm">Year Experience</div>
           </div>
-          <div>
-            <div className="text-3xl font-bold text-emerald-400 mb-2">50+</div>
+          <div className="smooth-fade-in delay-500">
+            <div className={`text-3xl font-bold ${colors.text} mb-2`}>50+</div>
             <div className="text-gray-400 text-sm">Projects Completed</div>
           </div>
-          <div>
-            <div className="text-3xl font-bold text-emerald-400 mb-2">100+</div>
+          <div className="smooth-fade-in delay-700">
+            <div className={`text-3xl font-bold ${colors.text} mb-2`}>100+</div>
             <div className="text-gray-400 text-sm">Satisfied Clients</div>
           </div>
-          <div>
-            <div className="text-3xl font-bold text-emerald-400 mb-2">10+</div>
+          <div className="smooth-fade-in delay-900">
+            <div className={`text-3xl font-bold ${colors.text} mb-2`}>10+</div>
             <div className="text-gray-400 text-sm">Awards Winner</div>
           </div>
         </div>
@@ -259,9 +360,11 @@ function DeveloperStyle() {
 }
 
 // 3. Artistic Inspired - Laravel D Style
-function ArtisticStyle() {
+function ArtisticStyle({ colorScheme }: { colorScheme: ColorScheme }) {
+  const colors = getColorClasses(colorScheme)
   return (
-    <main className="min-h-screen bg-black text-white relative overflow-hidden">
+    <main className={`min-h-screen ${colors.gradient} text-white relative overflow-hidden`}>
+      <InteractiveGrid color={colors.gridColor} opacity={0.2} nodeCount={80} />
       {/* Geometric Network Background */}
       <div className="absolute inset-0 opacity-20">
         <svg className="w-full h-full">
@@ -342,9 +445,10 @@ function ArtisticStyle() {
 }
 
 // 4. Traditional Portfolio Style
-function TraditionalStyle() {
+function TraditionalStyle({ colorScheme }: { colorScheme: ColorScheme }) {
+  const colors = getColorClasses(colorScheme)
   return (
-    <main className="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 text-white">
+    <main className={`min-h-screen ${colors.gradient} text-white`}>
       {/* Navigation */}
       <nav className="flex justify-between items-center p-8">
         <div className="text-2xl font-bold text-purple-300">PORTFOLIO</div>
@@ -424,9 +528,11 @@ function TraditionalStyle() {
 }
 
 // 5. Professional Business Style
-function BusinessStyle() {
+function BusinessStyle({ colorScheme }: { colorScheme: ColorScheme }) {
+  const colors = getColorClasses(colorScheme)
   return (
-    <main className="min-h-screen bg-black text-white relative overflow-hidden">
+    <main className={`min-h-screen ${colors.gradient} text-white relative overflow-hidden`}>
+      <InteractiveGrid color={colors.gridColor} opacity={0.3} nodeCount={50} />
       {/* Network Background */}
       <div className="absolute inset-0 opacity-30">
         <svg className="w-full h-full">
