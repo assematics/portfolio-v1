@@ -4,14 +4,16 @@ import { useState } from 'react'
 import ModernMinimalist from './variants/ModernMinimalist'
 import ModernTerminal from './variants/ModernTerminal'
 import ModernCorporate from './variants/ModernCorporate'
+import InspiredStyles from './variants/InspiredStyles'
 import ThemeToggle from './ThemeToggle'
 
-type Variant = 'minimalist' | 'terminal' | 'corporate'
+type Variant = 'minimalist' | 'terminal' | 'corporate' | 'inspired'
 
 export default function VariantSwitcher() {
-  const [currentVariant, setCurrentVariant] = useState<Variant>('minimalist')
+  const [currentVariant, setCurrentVariant] = useState<Variant>('inspired')
 
   const variants = [
+    { key: 'inspired', label: '🎨 Inspired Designs', description: '5 screenshot-inspired styles!' },
     { key: 'minimalist', label: 'Modern Minimalist', description: '25 sleek designs!' },
     { key: 'terminal', label: 'Modern Terminal', description: '25 tech interfaces!' },
     { key: 'corporate', label: 'Modern Corporate', description: '25 business styles!' }
@@ -19,6 +21,8 @@ export default function VariantSwitcher() {
 
   const renderVariant = () => {
     switch (currentVariant) {
+      case 'inspired':
+        return <InspiredStyles />
       case 'minimalist':
         return <ModernMinimalist />
       case 'terminal':
@@ -26,7 +30,7 @@ export default function VariantSwitcher() {
       case 'corporate':
         return <ModernCorporate />
       default:
-        return <ModernMinimalist />
+        return <InspiredStyles />
     }
   }
 
@@ -57,7 +61,7 @@ export default function VariantSwitcher() {
         
                        <div className="mt-4 pt-3 border-t border-gray-200 dark:border-slate-600">
                  <div className="text-xs text-gray-500 dark:text-slate-400">
-                   🚀 75 modern combinations + photo!
+                   🚀 80+ total designs + your photo!
                  </div>
                </div>
       </div>
