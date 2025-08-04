@@ -5,7 +5,7 @@ import ProfilePhoto from '../ProfilePhoto'
 import InteractiveGrid from '../InteractiveGrid'
 import ScrollNavigation from '../ScrollNavigation'
 import { EnhancedCard, StatsCounter, FloatingElement, GradientText } from './DemoInspiredEnhancements'
-import { MobileMenu, CollapsibleMenu, HeroIconsFallback } from '../MobileMenuSystem'
+import { UnifiedMenu, MenuSection, OptionButton } from '../UnifiedMenuSystem'
 
 type StyleVariant = 'brooklin' | 'developer' | 'artistic' | 'traditional' | 'business'
 type ColorScheme = 'default' | 'blue' | 'purple' | 'green' | 'red' | 'catppuccin' | 'softLight' | 'warmDark'
@@ -32,7 +32,6 @@ const colorSchemes = {
 export default function InspiredStyles() {
   const [currentStyle, setCurrentStyle] = useState<StyleVariant>('brooklin')
   const [currentColor, setCurrentColor] = useState<ColorScheme>('default')
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   const renderStyle = () => {
     switch (currentStyle) {
@@ -53,62 +52,48 @@ export default function InspiredStyles() {
 
   return (
     <div className="relative min-h-screen">
-      {/* Mobile-Friendly Menu System */}
-      <MobileMenu 
-        isOpen={isMobileMenuOpen} 
-        onToggle={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-      >
-        <CollapsibleMenu title="Design Styles" icon="🎨" defaultOpen={true}>
-          <div className="space-y-2">
+      {/* Unified Menu System for Inspired Styles */}
+      <UnifiedMenu>
+        <MenuSection title="Design Styles" icon="🎨" defaultExpanded={true}>
+          <div className="space-y-3">
             {Object.entries(styleVariants).map(([key, label]) => (
-              <button
+              <OptionButton
                 key={key}
-                onClick={() => {
-                  setCurrentStyle(key as StyleVariant)
-                  setIsMobileMenuOpen(false) // Close mobile menu after selection
-                }}
-                className={`block w-full text-left px-3 py-2 rounded-md text-sm transition-all duration-300 ${
-                  currentStyle === key
-                    ? 'bg-blue-600 dark:bg-blue-500 text-white shadow-md scale-105'
-                    : 'bg-gray-100/80 dark:bg-slate-700/80 text-gray-700 dark:text-slate-300 hover:bg-gray-200 dark:hover:bg-slate-600 hover:scale-102'
-                }`}
-              >
-                <div className="font-medium">{label}</div>
-              </button>
-            ))}
-          </div>
-        </CollapsibleMenu>
-
-        <CollapsibleMenu title="Color Schemes" icon="🌈" defaultOpen={false}>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-            {Object.entries(colorSchemes).map(([key, label]) => (
-              <button
-                key={key}
-                onClick={() => {
-                  setCurrentColor(key as ColorScheme)
-                  setIsMobileMenuOpen(false) // Close mobile menu after selection
-                }}
-                className={`px-3 py-2 rounded text-sm transition-all duration-300 ${
-                  currentColor === key
-                    ? 'bg-blue-600 dark:bg-blue-500 text-white shadow-md scale-105'
-                    : 'bg-gray-100/80 dark:bg-slate-700/80 text-gray-600 dark:text-slate-400 hover:bg-gray-200 dark:hover:bg-slate-600 hover:scale-102'
-                }`}
+                isSelected={currentStyle === key}
+                onClick={() => setCurrentStyle(key as StyleVariant)}
               >
                 {label}
-              </button>
+              </OptionButton>
             ))}
           </div>
-        </CollapsibleMenu>
+        </MenuSection>
 
-        <div className="mt-6 p-3 bg-gradient-to-r from-blue-50/50 to-purple-50/50 dark:from-slate-800/50 dark:to-slate-700/50 rounded-lg border border-blue-200/30 dark:border-slate-600/30">
-          <div className="text-xs text-gray-600 dark:text-slate-400 space-y-1">
-            <div>🎨 <strong>40 variants</strong> (5 styles × 8 colors)</div>
-            <div>🎯 <strong>Interactive</strong> mouse-following grids</div>
-            <div>👁️ <strong>Easy-on-eyes</strong> color palettes</div>
-            <div>📱 <strong>Mobile-friendly</strong> responsive design</div>
+        <MenuSection title="Color Schemes" icon="🌈" defaultExpanded={false}>
+          <div className="grid grid-cols-1 gap-3">
+            {Object.entries(colorSchemes).map(([key, label]) => (
+              <OptionButton
+                key={key}
+                isSelected={currentColor === key}
+                onClick={() => setCurrentColor(key as ColorScheme)}
+                description={getColorDescription(key as ColorScheme)}
+              >
+                {label}
+              </OptionButton>
+            ))}
           </div>
-        </div>
-      </MobileMenu>
+        </MenuSection>
+
+        <MenuSection title="Current Selection" icon="✨">
+          <div className="text-center p-4 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-slate-800 dark:to-slate-700 rounded-lg">
+            <div className="font-bold text-gray-800 dark:text-slate-200 mb-1">
+              {styleVariants[currentStyle]}
+            </div>
+            <div className="text-sm text-gray-600 dark:text-slate-400">
+              with {colorSchemes[currentColor]} colors
+            </div>
+          </div>
+        </MenuSection>
+      </UnifiedMenu>
 
       {renderStyle()}
     </div>
@@ -206,6 +191,28 @@ function getColorClasses(scheme: ColorScheme) {
         gradient: 'bg-gradient-to-br from-slate-900 via-gray-900 to-slate-800',
         gridColor: '#6ee7b7'
       }
+  }
+}
+
+// Helper function for color descriptions
+function getColorDescription(scheme: ColorScheme): string {
+  switch (scheme) {
+    case 'catppuccin':
+      return 'Dark theme with soft blues'
+    case 'softLight':
+      return 'Light theme with gentle colors'
+    case 'warmDark':
+      return 'Cozy orange-based dark theme'
+    case 'blue':
+      return 'Sky-based ocean blues'
+    case 'purple':
+      return 'Royal violet gradients'
+    case 'green':
+      return 'Natural emerald tones'
+    case 'red':
+      return 'Warm rose accents'
+    default:
+      return 'Classic emerald professional'
   }
 }
 
