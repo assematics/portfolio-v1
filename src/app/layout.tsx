@@ -14,6 +14,7 @@ export const metadata: Metadata = {
   publisher: 'Assem Sobhy',
   icons: {
     icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
       { url: '/favicon.ico', sizes: 'any' },
       { url: '/icon.png', type: 'image/png' },
     ],

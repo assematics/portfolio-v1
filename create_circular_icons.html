@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Circular Icons</title>
+    <style>
+        canvas { display: none; }
+        .preview { margin: 20px; }
+        .icon { border-radius: 50%; margin: 10px; }
+    </style>
+</head>
+<body>
+    <h2>Creating Circular Icons...</h2>
+    <div class="preview">
+        <h3>16x16:</h3>
+        <canvas id="canvas16" width="16" height="16"></canvas>
+        <img id="preview16" class="icon" width="32" height="32">
+        
+        <h3>32x32:</h3>
+        <canvas id="canvas32" width="32" height="32"></canvas>
+        <img id="preview32" class="icon" width="64" height="64">
+        
+        <h3>180x180 (Apple Touch):</h3>
+        <canvas id="canvas180" width="180" height="180"></canvas>
+        <img id="preview180" class="icon" width="120" height="120">
+    </div>
+
+    <script>
+        function createCircularIcon(size) {
+            const canvas = document.getElementById(`canvas${size}`);
+            const ctx = canvas.getContext('2d');
+            const img = new Image();
+            
+            img.onload = function() {
+                // Create circular clipping path
+                ctx.beginPath();
+                ctx.arc(size/2, size/2, size/2, 0, Math.PI * 2);
+                ctx.clip();
+                
+                // Draw image to fill the circle
+                ctx.drawImage(img, 0, 0, size, size);
+                
+                // Convert to blob and create download link
+                canvas.toBlob(function(blob) {
+                    const url = URL.createObjectURL(blob);
+                    const preview = document.getElementById(`preview${size}`);
+                    preview.src = url;
+                    
+                    // Create download link
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = size === 16 ? 'favicon.ico' : 
+                                size === 32 ? 'icon.png' : 'apple-touch-icon.png';
+                    a.textContent = `Download ${a.download}`;
+                    a.style.display = 'block';
+                    a.style.margin = '10px';
+                    preview.parentNode.appendChild(a);
+                });
+            };
+            
+            img.src = '/profile.jpg';
+        }
+        
+        // Create all sizes
+        [16, 32, 180].forEach(createCircularIcon);
+    </script>
+</body>
+</html>
