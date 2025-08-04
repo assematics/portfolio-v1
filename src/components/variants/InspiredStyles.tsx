@@ -5,7 +5,7 @@ import ProfilePhoto from '../ProfilePhoto'
 import InteractiveGrid from '../InteractiveGrid'
 import ScrollNavigation from '../ScrollNavigation'
 import { EnhancedCard, StatsCounter, FloatingElement, GradientText } from './DemoInspiredEnhancements'
-import { UnifiedMenu, MenuSection, OptionButton } from '../UnifiedMenuSystem'
+
 
 type StyleVariant = 'brooklin' | 'developer' | 'artistic' | 'traditional' | 'business'
 type ColorScheme = 'default' | 'blue' | 'purple' | 'green' | 'red' | 'catppuccin' | 'softLight' | 'warmDark'
@@ -52,49 +52,6 @@ export default function InspiredStyles() {
 
   return (
     <div className="relative min-h-screen">
-      {/* Unified Menu System for Inspired Styles */}
-      <UnifiedMenu>
-        <MenuSection title="Design Styles" icon="🎨" defaultExpanded={true}>
-          <div className="space-y-3">
-            {Object.entries(styleVariants).map(([key, label]) => (
-              <OptionButton
-                key={key}
-                isSelected={currentStyle === key}
-                onClick={() => setCurrentStyle(key as StyleVariant)}
-              >
-                {label}
-              </OptionButton>
-            ))}
-          </div>
-        </MenuSection>
-
-        <MenuSection title="Color Schemes" icon="🌈" defaultExpanded={false}>
-          <div className="grid grid-cols-1 gap-3">
-            {Object.entries(colorSchemes).map(([key, label]) => (
-              <OptionButton
-                key={key}
-                isSelected={currentColor === key}
-                onClick={() => setCurrentColor(key as ColorScheme)}
-                description={getColorDescription(key as ColorScheme)}
-              >
-                {label}
-              </OptionButton>
-            ))}
-          </div>
-        </MenuSection>
-
-        <MenuSection title="Current Selection" icon="✨">
-          <div className="text-center p-4 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-slate-800 dark:to-slate-700 rounded-lg">
-            <div className="font-bold text-gray-800 dark:text-slate-200 mb-1">
-              {styleVariants[currentStyle]}
-            </div>
-            <div className="text-sm text-gray-600 dark:text-slate-400">
-              with {colorSchemes[currentColor]} colors
-            </div>
-          </div>
-        </MenuSection>
-      </UnifiedMenu>
-
       {renderStyle()}
     </div>
   )
@@ -294,8 +251,12 @@ function BrooklinStyle({ colorScheme }: { colorScheme: ColorScheme }) {
       <div className="relative z-10 py-8 sm:py-12 md:py-16">
         <div className="max-w-6xl mx-auto px-4 sm:px-8">
           {/* Floating decorative elements - hidden on mobile for better performance */}
-          <FloatingElement direction="up" delay={0} className="hidden md:block absolute top-4 left-4 w-20 h-20 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-full blur-xl"></FloatingElement>
-          <FloatingElement direction="down" delay={2000} className="hidden md:block absolute bottom-4 right-4 w-16 h-16 bg-gradient-to-br from-pink-500/10 to-orange-500/10 rounded-full blur-xl"></FloatingElement>
+          <FloatingElement direction="up" delay={0} className="hidden md:block absolute top-4 left-4 w-20 h-20 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-full blur-xl">
+            <div />
+          </FloatingElement>
+          <FloatingElement direction="down" delay={2000} className="hidden md:block absolute bottom-4 right-4 w-16 h-16 bg-gradient-to-br from-pink-500/10 to-orange-500/10 rounded-full blur-xl">
+            <div />
+          </FloatingElement>
           
           <EnhancedCard className="backdrop-blur-md bg-white/5 border-white/10">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
