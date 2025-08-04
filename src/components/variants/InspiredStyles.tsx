@@ -6,7 +6,6 @@ import InteractiveGrid from '../InteractiveGrid'
 import ScrollNavigation from '../ScrollNavigation'
 import { EnhancedCard, StatsCounter, FloatingElement, GradientText } from './DemoInspiredEnhancements'
 
-
 type StyleVariant = 'brooklin' | 'developer' | 'artistic' | 'traditional' | 'business'
 type ColorScheme = 'default' | 'blue' | 'purple' | 'green' | 'red' | 'catppuccin' | 'softLight' | 'warmDark'
 

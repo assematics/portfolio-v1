@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, lazy, Suspense } from 'react'
-import SimpleDropdown from './SimpleDropdown'
+import SimpleMenuButton from './SimpleMenuButton'
 
 // Lazy load components for better performance
 const ModernMinimalist = lazy(() => import('./variants/ModernMinimalist'))
@@ -14,12 +14,13 @@ type Variant = 'minimalist' | 'terminal' | 'corporate' | 'inspired'
 export default function VariantSwitcher() {
   const [currentVariant, setCurrentVariant] = useState<Variant>('inspired')
 
-  const variants = [
-    { value: 'inspired', label: 'Inspired' },
-    { value: 'minimalist', label: 'Minimalist' },
-    { value: 'terminal', label: 'Terminal' },
-    { value: 'corporate', label: 'Corporate' }
-  ] as const
+  const variants: Variant[] = ['inspired', 'minimalist', 'terminal', 'corporate']
+
+  const cycleVariant = () => {
+    const currentIndex = variants.indexOf(currentVariant)
+    const nextIndex = (currentIndex + 1) % variants.length
+    setCurrentVariant(variants[nextIndex])
+  }
 
   const renderVariant = () => {
     switch (currentVariant) {
@@ -38,12 +39,8 @@ export default function VariantSwitcher() {
 
   return (
     <div className="relative">
-      {/* Simple Dropdown */}
-      <SimpleDropdown
-        value={currentVariant}
-        onChange={(value) => setCurrentVariant(value as Variant)}
-        options={variants}
-      />
+      {/* Simple Menu Button */}
+      <SimpleMenuButton onClick={cycleVariant} />
 
       {/* Render Current Variant with Loading */}
       <Suspense fallback={
