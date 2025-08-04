@@ -52,7 +52,7 @@ export function StatsCounter({ value, label, delay = 'delay-0', color = 'text-em
   return (
     <div className={`text-center smooth-fade-in ${delay} group`}>
       <div className={`
-        text-4xl md:text-5xl font-bold mb-2 
+        text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-1 sm:mb-2 
         ${color}
         transition-all duration-300
         group-hover:scale-110
@@ -60,7 +60,7 @@ export function StatsCounter({ value, label, delay = 'delay-0', color = 'text-em
       `}>
         {value}
       </div>
-      <div className="text-gray-400 text-sm font-medium tracking-wide">
+      <div className="text-gray-400 text-xs sm:text-sm font-medium tracking-wide leading-tight">
         {label}
       </div>
     </div>

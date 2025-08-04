@@ -5,6 +5,7 @@ import ProfilePhoto from '../ProfilePhoto'
 import InteractiveGrid from '../InteractiveGrid'
 import ScrollNavigation from '../ScrollNavigation'
 import { EnhancedCard, StatsCounter, FloatingElement, GradientText } from './DemoInspiredEnhancements'
+import { MobileMenu, CollapsibleMenu, HeroIconsFallback } from '../MobileMenuSystem'
 
 type StyleVariant = 'brooklin' | 'developer' | 'artistic' | 'traditional' | 'business'
 type ColorScheme = 'default' | 'blue' | 'purple' | 'green' | 'red' | 'catppuccin' | 'softLight' | 'warmDark'
@@ -31,6 +32,7 @@ const colorSchemes = {
 export default function InspiredStyles() {
   const [currentStyle, setCurrentStyle] = useState<StyleVariant>('brooklin')
   const [currentColor, setCurrentColor] = useState<ColorScheme>('default')
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   const renderStyle = () => {
     switch (currentStyle) {
@@ -51,53 +53,62 @@ export default function InspiredStyles() {
 
   return (
     <div className="relative min-h-screen">
-      {/* Style Switcher */}
-      <div className="fixed top-20 left-4 z-40 bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm border border-gray-200 dark:border-slate-700 rounded-lg p-4 shadow-lg max-w-xs">
-        <div className="text-sm font-semibold text-gray-700 dark:text-slate-200 mb-3">Inspired Styles</div>
-        
-        <div className="space-y-2 mb-4">
-          {Object.entries(styleVariants).map(([key, label]) => (
-            <button
-              key={key}
-              onClick={() => setCurrentStyle(key as StyleVariant)}
-              className={`block w-full text-left px-3 py-2 rounded-md text-sm transition-colors ${
-                currentStyle === key
-                  ? 'bg-blue-600 dark:bg-blue-500 text-white'
-                  : 'bg-gray-100 dark:bg-slate-700 text-gray-700 dark:text-slate-300 hover:bg-gray-200 dark:hover:bg-slate-600'
-              }`}
-            >
-              <div className="font-medium">{label}</div>
-            </button>
-          ))}
-        </div>
+      {/* Mobile-Friendly Menu System */}
+      <MobileMenu 
+        isOpen={isMobileMenuOpen} 
+        onToggle={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+      >
+        <CollapsibleMenu title="Design Styles" icon="🎨" defaultOpen={true}>
+          <div className="space-y-2">
+            {Object.entries(styleVariants).map(([key, label]) => (
+              <button
+                key={key}
+                onClick={() => {
+                  setCurrentStyle(key as StyleVariant)
+                  setIsMobileMenuOpen(false) // Close mobile menu after selection
+                }}
+                className={`block w-full text-left px-3 py-2 rounded-md text-sm transition-all duration-300 ${
+                  currentStyle === key
+                    ? 'bg-blue-600 dark:bg-blue-500 text-white shadow-md scale-105'
+                    : 'bg-gray-100/80 dark:bg-slate-700/80 text-gray-700 dark:text-slate-300 hover:bg-gray-200 dark:hover:bg-slate-600 hover:scale-102'
+                }`}
+              >
+                <div className="font-medium">{label}</div>
+              </button>
+            ))}
+          </div>
+        </CollapsibleMenu>
 
-        <div className="border-t border-gray-200 dark:border-slate-600 pt-3 mb-4">
-          <div className="text-sm font-semibold text-gray-700 dark:text-slate-200 mb-2">Color Scheme</div>
-          <div className="grid grid-cols-2 gap-1">
+        <CollapsibleMenu title="Color Schemes" icon="🌈" defaultOpen={false}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             {Object.entries(colorSchemes).map(([key, label]) => (
               <button
                 key={key}
-                onClick={() => setCurrentColor(key as ColorScheme)}
-                className={`px-2 py-1 rounded text-xs transition-all duration-300 ${
+                onClick={() => {
+                  setCurrentColor(key as ColorScheme)
+                  setIsMobileMenuOpen(false) // Close mobile menu after selection
+                }}
+                className={`px-3 py-2 rounded text-sm transition-all duration-300 ${
                   currentColor === key
                     ? 'bg-blue-600 dark:bg-blue-500 text-white shadow-md scale-105'
-                    : 'bg-gray-100 dark:bg-slate-700 text-gray-600 dark:text-slate-400 hover:bg-gray-200 dark:hover:bg-slate-600 hover:scale-102'
+                    : 'bg-gray-100/80 dark:bg-slate-700/80 text-gray-600 dark:text-slate-400 hover:bg-gray-200 dark:hover:bg-slate-600 hover:scale-102'
                 }`}
               >
                 {label}
               </button>
             ))}
           </div>
-        </div>
+        </CollapsibleMenu>
 
-        <div className="pt-3 border-t border-gray-200 dark:border-slate-600">
-          <div className="text-xs text-gray-500 dark:text-slate-400">
-            🎨 5 styles × 8 colors = 40 variants!<br/>
-            🎯 Interactive grid + smooth transitions!<br/>
-            👁️ Easy-on-the-eyes palettes!
+        <div className="mt-6 p-3 bg-gradient-to-r from-blue-50/50 to-purple-50/50 dark:from-slate-800/50 dark:to-slate-700/50 rounded-lg border border-blue-200/30 dark:border-slate-600/30">
+          <div className="text-xs text-gray-600 dark:text-slate-400 space-y-1">
+            <div>🎨 <strong>40 variants</strong> (5 styles × 8 colors)</div>
+            <div>🎯 <strong>Interactive</strong> mouse-following grids</div>
+            <div>👁️ <strong>Easy-on-eyes</strong> color palettes</div>
+            <div>📱 <strong>Mobile-friendly</strong> responsive design</div>
           </div>
         </div>
-      </div>
+      </MobileMenu>
 
       {renderStyle()}
     </div>
@@ -229,23 +240,23 @@ function BrooklinStyle({ colorScheme }: { colorScheme: ColorScheme }) {
       </ScrollNavigation>
 
       {/* Main Content */}
-      <div className="relative z-10 flex items-center justify-center min-h-[80vh] px-8">
+      <div className="relative z-10 flex items-center justify-center min-h-[80vh] px-4 sm:px-8">
         <div className="text-center max-w-4xl">
-          <ProfilePhoto size="xl" className="mx-auto mb-12 smooth-fade-in" />
+          <ProfilePhoto size="lg" className="mx-auto mb-8 sm:mb-12 smooth-fade-in md:w-48 md:h-48" />
           
-          <h1 className="text-7xl md:text-8xl font-light mb-8 smooth-slide-top delay-300">
+          <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-light mb-6 sm:mb-8 smooth-slide-top delay-300 leading-tight">
             Hi, I'm <GradientText className="font-normal">Assem!</GradientText>
           </h1>
           
-          <div className="mb-12">
-            <p className="text-2xl md:text-3xl smooth-slide-bottom delay-500">
+          <div className="mb-8 sm:mb-12 space-y-3 sm:space-y-4">
+            <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl smooth-slide-bottom delay-500">
               a <span className={`${colors.text} font-medium`}>Developer & Security Engineer</span>
             </p>
-            <p className="text-xl md:text-2xl mt-4 smooth-slide-bottom delay-700">
-              With <span className={colors.text}>5+</span> years<br/>
-              experience working with
+            <p className="text-base sm:text-lg md:text-xl lg:text-2xl smooth-slide-bottom delay-700">
+              With <span className={colors.text}>5+</span> years<br className="hidden sm:block"/>
+              <span className="sm:hidden"> </span>experience working with
             </p>
-            <p className={`text-xl md:text-2xl ${colors.text} font-medium mt-2 smooth-slide-bottom delay-900`}>
+            <p className={`text-base sm:text-lg md:text-xl lg:text-2xl ${colors.text} font-medium smooth-slide-bottom delay-900`}>
               <GradientText gradient={`from-${colors.text.split('-')[1]}-300 to-${colors.text.split('-')[1]}-400`}>
                 Modern Technologies
               </GradientText>
@@ -255,7 +266,7 @@ function BrooklinStyle({ colorScheme }: { colorScheme: ColorScheme }) {
           <div className="smooth-zoom-in delay-1100">
             <button className={`
               relative group
-              px-8 py-4 
+              px-6 sm:px-8 py-3 sm:py-4 
               ${colors.bg} text-white font-semibold 
               rounded-full 
               ${colors.bgHover} 
@@ -263,6 +274,7 @@ function BrooklinStyle({ colorScheme }: { colorScheme: ColorScheme }) {
               transform hover:scale-105 hover:-translate-y-1
               shadow-lg hover:shadow-2xl
               overflow-hidden
+              text-sm sm:text-base
             `}>
               <span className="relative z-10">View My Work</span>
               <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -272,14 +284,14 @@ function BrooklinStyle({ colorScheme }: { colorScheme: ColorScheme }) {
       </div>
 
       {/* Enhanced Stats Section - Demo Inspired */}
-      <div className="relative z-10 py-16">
-        <div className="max-w-6xl mx-auto px-8">
-          {/* Floating decorative elements */}
-          <FloatingElement direction="up" delay={0} className="absolute top-4 left-4 w-20 h-20 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-full blur-xl"></FloatingElement>
-          <FloatingElement direction="down" delay={2000} className="absolute bottom-4 right-4 w-16 h-16 bg-gradient-to-br from-pink-500/10 to-orange-500/10 rounded-full blur-xl"></FloatingElement>
+      <div className="relative z-10 py-8 sm:py-12 md:py-16">
+        <div className="max-w-6xl mx-auto px-4 sm:px-8">
+          {/* Floating decorative elements - hidden on mobile for better performance */}
+          <FloatingElement direction="up" delay={0} className="hidden md:block absolute top-4 left-4 w-20 h-20 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-full blur-xl"></FloatingElement>
+          <FloatingElement direction="down" delay={2000} className="hidden md:block absolute bottom-4 right-4 w-16 h-16 bg-gradient-to-br from-pink-500/10 to-orange-500/10 rounded-full blur-xl"></FloatingElement>
           
           <EnhancedCard className="backdrop-blur-md bg-white/5 border-white/10">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
               <StatsCounter 
                 value="50+" 
                 label="Projects Completed"
