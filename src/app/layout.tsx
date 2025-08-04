@@ -15,17 +15,16 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       { url: '/favicon.svg', type: 'image/svg+xml' },
-      { url: '/favicon.ico', sizes: 'any' },
-      { url: '/icon.png', type: 'image/png' },
+      { url: '/favicon.png', type: 'image/png' },
     ],
     apple: [
-      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+      { url: '/favicon.png', sizes: '180x180', type: 'image/png' },
     ],
   },
   openGraph: {
     title: 'Assem Sobhy - Developer & Security Engineer',
     description: 'Portfolio of Assem Sobhy - Developer specializing in web development, Linux administration, and cybersecurity.',
-    url: 'https://portfolio-v1-gules-eight.vercel.app',
+    url: 'https://assem-me.vercel.app',
     siteName: 'Assem Sobhy Portfolio',
     type: 'website',
     images: [
