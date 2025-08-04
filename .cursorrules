@@ -1,0 +1,25 @@
+# Portfolio Project Rules
+
+## Project Overview
+Complete portfolio rebuild using Next.js + Tailwind CSS + TypeScript for assem.me
+
+## Tech Stack
+- Next.js 13+ (App Router)
+- TypeScript
+- Tailwind CSS
+- Framer Motion (animations)
+- MDX (blog posts)
+- shadcn/ui (components)
+
+## Development Guidelines
+- Use TypeScript for all components
+- Follow Next.js App Router conventions
+- Implement proper SEO optimization
+- Ensure excellent Core Web Vitals
+- Never hardcode credentials - use encrypted/env vars
+- Execute commands one at a time for safety
+
+## Hosting & Deployment
+- Target: Vercel or Netlify
+- Domain: Currently at Cloudflare
+- Performance: Optimize for speed and accessibility
