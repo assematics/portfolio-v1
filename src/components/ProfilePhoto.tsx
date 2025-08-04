@@ -13,24 +13,24 @@ export default function ProfilePhoto({ size = 'md', className = '' }: ProfilePho
     xl: 'w-48 h-48'
   }
 
-  return (
+    return (
     <div className={`relative ${sizeClasses[size]} ${className} group cursor-pointer`}>
       {/* Color version (visible on hover) */}
-      <img 
-        src="/profile.jpg" 
+      <img
+        src="/profile.jpg"
         alt="Assem Sobhy - Developer & Security Engineer"
-        className={`${sizeClasses[size]} rounded-full object-cover shadow-lg transition-all duration-500 opacity-0 group-hover:opacity-100 absolute inset-0 z-10 group-hover:scale-110 group-hover:shadow-2xl`}
+        className={`${sizeClasses[size]} rounded-full object-cover shadow-lg transition-all duration-1000 ease-out opacity-0 group-hover:opacity-100 absolute inset-0 z-10 group-hover:scale-105 group-hover:shadow-2xl`}
       />
-      
+
       {/* Black and white version (default) */}
-      <img 
-        src="/profile.jpg" 
+      <img
+        src="/profile.jpg"
         alt="Assem Sobhy - Developer & Security Engineer"
-        className={`${sizeClasses[size]} rounded-full object-cover shadow-lg transition-all duration-500 filter grayscale group-hover:scale-95 group-hover:shadow-sm`}
+        className={`${sizeClasses[size]} rounded-full object-cover shadow-lg transition-all duration-1000 ease-out filter grayscale group-hover:scale-102 group-hover:shadow-sm`}
       />
-      
+
       {/* Hover glow effect */}
-      <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-400/20 to-purple-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-lg scale-110"></div>
+      <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-400/10 to-purple-400/10 opacity-0 group-hover:opacity-60 transition-all duration-1000 ease-out blur-lg scale-110"></div>
     </div>
   )
 }

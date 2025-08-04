@@ -61,7 +61,9 @@ export default function VariantSwitcher() {
         
                        <div className="mt-4 pt-3 border-t border-gray-200 dark:border-slate-600">
                  <div className="text-xs text-gray-500 dark:text-slate-400">
-                   🚀 80+ total designs + your photo!
+                   🚀 115+ total designs + your photo!<br/>
+                   👁️ Easy-on-the-eyes palettes!<br/>
+                   🎨 Catppuccin + smooth transitions!
                  </div>
                </div>
       </div>

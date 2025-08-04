@@ -4,9 +4,10 @@ import { useState } from 'react'
 import ProfilePhoto from '../ProfilePhoto'
 import InteractiveGrid from '../InteractiveGrid'
 import ScrollNavigation from '../ScrollNavigation'
+import { EnhancedCard, StatsCounter, FloatingElement, GradientText } from './DemoInspiredEnhancements'
 
 type StyleVariant = 'brooklin' | 'developer' | 'artistic' | 'traditional' | 'business'
-type ColorScheme = 'default' | 'blue' | 'purple' | 'green' | 'red'
+type ColorScheme = 'default' | 'blue' | 'purple' | 'green' | 'red' | 'catppuccin' | 'softLight' | 'warmDark'
 
 const styleVariants = {
   brooklin: 'Clean Minimalist',
@@ -21,7 +22,10 @@ const colorSchemes = {
   blue: 'Ocean Blue',
   purple: 'Royal Purple', 
   green: 'Forest Green',
-  red: 'Fire Red'
+  red: 'Fire Red',
+  catppuccin: 'Catppuccin',
+  softLight: 'Soft Light',
+  warmDark: 'Warm Dark'
 }
 
 export default function InspiredStyles() {
@@ -74,10 +78,10 @@ export default function InspiredStyles() {
               <button
                 key={key}
                 onClick={() => setCurrentColor(key as ColorScheme)}
-                className={`px-2 py-1 rounded text-xs transition-colors ${
+                className={`px-2 py-1 rounded text-xs transition-all duration-300 ${
                   currentColor === key
-                    ? 'bg-blue-600 dark:bg-blue-500 text-white'
-                    : 'bg-gray-100 dark:bg-slate-700 text-gray-600 dark:text-slate-400 hover:bg-gray-200 dark:hover:bg-slate-600'
+                    ? 'bg-blue-600 dark:bg-blue-500 text-white shadow-md scale-105'
+                    : 'bg-gray-100 dark:bg-slate-700 text-gray-600 dark:text-slate-400 hover:bg-gray-200 dark:hover:bg-slate-600 hover:scale-102'
                 }`}
               >
                 {label}
@@ -88,8 +92,9 @@ export default function InspiredStyles() {
 
         <div className="pt-3 border-t border-gray-200 dark:border-slate-600">
           <div className="text-xs text-gray-500 dark:text-slate-400">
-            🎨 5 styles × 5 colors = 25 variants!<br/>
-            🎯 Interactive grid + scroll nav!
+            🎨 5 styles × 8 colors = 40 variants!<br/>
+            🎯 Interactive grid + smooth transitions!<br/>
+            👁️ Easy-on-the-eyes palettes!
           </div>
         </div>
       </div>
@@ -99,63 +104,96 @@ export default function InspiredStyles() {
   )
 }
 
-// Color scheme helper
+// Color scheme helper with easy-on-the-eyes palettes
 function getColorClasses(scheme: ColorScheme) {
   switch (scheme) {
     case 'blue':
       return {
-        text: 'text-blue-400',
-        textDark: 'text-blue-500',
-        textLight: 'text-blue-300',
-        bg: 'bg-blue-500',
-        bgHover: 'hover:bg-blue-400',
-        hoverText: 'hover:text-blue-400',
-        gradient: 'bg-gradient-to-br from-blue-900 via-slate-900 to-indigo-900',
-        gridColor: '#60a5fa'
+        text: 'text-sky-300',
+        textDark: 'text-sky-400',
+        textLight: 'text-sky-200',
+        bg: 'bg-sky-500',
+        bgHover: 'hover:bg-sky-400',
+        hoverText: 'hover:text-sky-300',
+        gradient: 'bg-gradient-to-br from-slate-900 via-blue-900/70 to-slate-800',
+        gridColor: '#7dd3fc'
       }
     case 'purple':
       return {
-        text: 'text-purple-400',
-        textDark: 'text-purple-500',
-        textLight: 'text-purple-300',
-        bg: 'bg-purple-500',
-        bgHover: 'hover:bg-purple-400',
-        hoverText: 'hover:text-purple-400',
-        gradient: 'bg-gradient-to-br from-purple-900 via-slate-900 to-violet-900',
-        gridColor: '#a78bfa'
+        text: 'text-violet-300',
+        textDark: 'text-violet-400',
+        textLight: 'text-violet-200',
+        bg: 'bg-violet-500',
+        bgHover: 'hover:bg-violet-400',
+        hoverText: 'hover:text-violet-300',
+        gradient: 'bg-gradient-to-br from-slate-900 via-violet-900/70 to-slate-800',
+        gridColor: '#c4b5fd'
       }
     case 'green':
       return {
-        text: 'text-green-400',
-        textDark: 'text-green-500',
-        textLight: 'text-green-300',
-        bg: 'bg-green-500',
-        bgHover: 'hover:bg-green-400',
-        hoverText: 'hover:text-green-400',
-        gradient: 'bg-gradient-to-br from-green-900 via-slate-900 to-emerald-900',
-        gridColor: '#4ade80'
+        text: 'text-emerald-300',
+        textDark: 'text-emerald-400',
+        textLight: 'text-emerald-200',
+        bg: 'bg-emerald-500',
+        bgHover: 'hover:bg-emerald-400',
+        hoverText: 'hover:text-emerald-300',
+        gradient: 'bg-gradient-to-br from-slate-900 via-emerald-900/70 to-slate-800',
+        gridColor: '#6ee7b7'
       }
     case 'red':
       return {
-        text: 'text-red-400',
-        textDark: 'text-red-500', 
-        textLight: 'text-red-300',
-        bg: 'bg-red-500',
-        bgHover: 'hover:bg-red-400',
-        hoverText: 'hover:text-red-400',
-        gradient: 'bg-gradient-to-br from-red-900 via-slate-900 to-rose-900',
-        gridColor: '#f87171'
+        text: 'text-rose-300',
+        textDark: 'text-rose-400', 
+        textLight: 'text-rose-200',
+        bg: 'bg-rose-500',
+        bgHover: 'hover:bg-rose-400',
+        hoverText: 'hover:text-rose-300',
+        gradient: 'bg-gradient-to-br from-slate-900 via-rose-900/70 to-slate-800',
+        gridColor: '#fda4af'
+      }
+    case 'catppuccin':
+      return {
+        text: 'text-blue-200',
+        textDark: 'text-blue-300',
+        textLight: 'text-blue-100',
+        bg: 'bg-blue-400',
+        bgHover: 'hover:bg-blue-300',
+        hoverText: 'hover:text-blue-200',
+        gradient: 'bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800',
+        gridColor: '#89b4fa'
+      }
+    case 'softLight':
+      return {
+        text: 'text-indigo-400',
+        textDark: 'text-indigo-500',
+        textLight: 'text-indigo-300',
+        bg: 'bg-indigo-400',
+        bgHover: 'hover:bg-indigo-300',
+        hoverText: 'hover:text-indigo-400',
+        gradient: 'bg-gradient-to-br from-gray-50 via-indigo-50 to-blue-50',
+        gridColor: '#a5b4fc'
+      }
+    case 'warmDark':
+      return {
+        text: 'text-orange-300',
+        textDark: 'text-orange-400',
+        textLight: 'text-orange-200',
+        bg: 'bg-orange-500',
+        bgHover: 'hover:bg-orange-400',
+        hoverText: 'hover:text-orange-300',
+        gradient: 'bg-gradient-to-br from-neutral-900 via-stone-900 to-amber-900/30',
+        gridColor: '#fdba74'
       }
     default:
       return {
-        text: 'text-emerald-400',
-        textDark: 'text-emerald-500',
-        textLight: 'text-emerald-300',
+        text: 'text-emerald-300',
+        textDark: 'text-emerald-400',
+        textLight: 'text-emerald-200',
         bg: 'bg-emerald-500',
         bgHover: 'hover:bg-emerald-400',
-        hoverText: 'hover:text-emerald-400',
-        gradient: 'bg-gradient-to-br from-gray-900 via-slate-900 to-black',
-        gridColor: '#10b981'
+        hoverText: 'hover:text-emerald-300',
+        gradient: 'bg-gradient-to-br from-slate-900 via-gray-900 to-slate-800',
+        gridColor: '#6ee7b7'
       }
   }
 }
@@ -196,7 +234,7 @@ function BrooklinStyle({ colorScheme }: { colorScheme: ColorScheme }) {
           <ProfilePhoto size="xl" className="mx-auto mb-12 smooth-fade-in" />
           
           <h1 className="text-7xl md:text-8xl font-light mb-8 smooth-slide-top delay-300">
-            Hi, I'm <span className="font-normal">Assem!</span>
+            Hi, I'm <GradientText className="font-normal">Assem!</GradientText>
           </h1>
           
           <div className="mb-12">
@@ -208,37 +246,66 @@ function BrooklinStyle({ colorScheme }: { colorScheme: ColorScheme }) {
               experience working with
             </p>
             <p className={`text-xl md:text-2xl ${colors.text} font-medium mt-2 smooth-slide-bottom delay-900`}>
-              Modern Technologies
+              <GradientText gradient={`from-${colors.text.split('-')[1]}-300 to-${colors.text.split('-')[1]}-400`}>
+                Modern Technologies
+              </GradientText>
             </p>
           </div>
 
-          <button className={`px-8 py-4 ${colors.bg} text-white font-semibold rounded-full ${colors.bgHover} transition-colors transform hover:scale-105 smooth-zoom-in delay-1100`}>
-            View My Work
-          </button>
+          <div className="smooth-zoom-in delay-1100">
+            <button className={`
+              relative group
+              px-8 py-4 
+              ${colors.bg} text-white font-semibold 
+              rounded-full 
+              ${colors.bgHover} 
+              transition-all duration-300 ease-out
+              transform hover:scale-105 hover:-translate-y-1
+              shadow-lg hover:shadow-2xl
+              overflow-hidden
+            `}>
+              <span className="relative z-10">View My Work</span>
+              <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* Stats Section */}
-      <div className="relative z-10 border-t border-gray-700 py-12">
+      {/* Enhanced Stats Section - Demo Inspired */}
+      <div className="relative z-10 py-16">
         <div className="max-w-6xl mx-auto px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            <div className="smooth-fade-in delay-300">
-              <div className={`text-3xl font-bold ${colors.text} mb-2`}>50+</div>
-              <div className="text-gray-400 text-sm">Projects Completed</div>
+          {/* Floating decorative elements */}
+          <FloatingElement direction="up" delay={0} className="absolute top-4 left-4 w-20 h-20 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-full blur-xl"></FloatingElement>
+          <FloatingElement direction="down" delay={2000} className="absolute bottom-4 right-4 w-16 h-16 bg-gradient-to-br from-pink-500/10 to-orange-500/10 rounded-full blur-xl"></FloatingElement>
+          
+          <EnhancedCard className="backdrop-blur-md bg-white/5 border-white/10">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+              <StatsCounter 
+                value="50+" 
+                label="Projects Completed"
+                delay="delay-300"
+                color={colors.text}
+              />
+              <StatsCounter 
+                value="5+" 
+                label="Years Experience"
+                delay="delay-500"
+                color={colors.text}
+              />
+              <StatsCounter 
+                value="24/7" 
+                label="System Uptime"
+                delay="delay-700"
+                color={colors.text}
+              />
+              <StatsCounter 
+                value="100%" 
+                label="Security Score"
+                delay="delay-900"
+                color={colors.text}
+              />
             </div>
-            <div className="smooth-fade-in delay-500">
-              <div className={`text-3xl font-bold ${colors.text} mb-2`}>5+</div>
-              <div className="text-gray-400 text-sm">Years Experience</div>
-            </div>
-            <div className="smooth-fade-in delay-700">
-              <div className={`text-3xl font-bold ${colors.text} mb-2`}>24/7</div>
-              <div className="text-gray-400 text-sm">System Uptime</div>
-            </div>
-            <div className="smooth-fade-in delay-900">
-              <div className={`text-3xl font-bold ${colors.text} mb-2`}>100%</div>
-              <div className="text-gray-400 text-sm">Security Score</div>
-            </div>
-          </div>
+          </EnhancedCard>
         </div>
       </div>
     </main>
